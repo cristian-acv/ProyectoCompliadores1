@@ -44,6 +44,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if (esIndenticador()) continue
             if(esParenDer())continue
             if(esParenIzq())continue
+            if(esPalabraReservada())
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
@@ -201,6 +202,22 @@ class AnalixadorLexico ( var codigoFuente:String){
             }
 
             almacenarToken(lexema, Categoria.PARENTESIS_DER,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
+    }
+
+
+    /*
+     * Automa finito determinista para saber si es una palabra reservada ? para definir de variables
+     */
+    fun esPalabraReservada():Boolean{
+        if(caracterActual== '?') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
             return true;
         }
         return  false;
