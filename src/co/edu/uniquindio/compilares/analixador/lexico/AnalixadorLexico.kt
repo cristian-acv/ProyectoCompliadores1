@@ -44,7 +44,9 @@ class AnalixadorLexico ( var codigoFuente:String){
             if (esIndenticador()) continue
             if(esParenDer())continue
             if(esParenIzq())continue
-            if(esPalabraReservada())
+            if(esPalabraReservada())continue
+            if(esOperadorArirtmetico())continue
+            if(esOperadorLogico()) continue
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
@@ -217,6 +219,56 @@ class AnalixadorLexico ( var codigoFuente:String){
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
+            almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
+    }
+
+    fun esOperadorLogico():Boolean{
+        if(caracterActual=='=' || caracterActual=='<' || caracterActual=='>' || caracterActual=='!'){
+            var aux=caracterActual
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual=='=' ){
+                lexema+=caracterActual
+                almacenarToken(lexema, Categoria.OPERADOR_LOGICO,filaInicial,columnaIncial)
+                return true
+            }
+            else{
+                if (aux=='='){
+                    return false
+                }
+                else {
+                    almacenarToken(lexema, Categoria.OPERADOR_LOGICO, filaInicial, columnaIncial)
+                    return true
+                }
+
+            }
+        }
+        return false
+    }
+    fun esOperadorArirtmetico():Boolean{
+        if(caracterActual=='+' || caracterActual=='-' || caracterActual=='/'|| caracterActual=='*' ){
+            var lexema=""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            almacenarToken(lexema,Categoria.OPERADOR_ARIMETICO,filaInicial,columnaIncial)
+            return true
+        }
+        return false
+    }
+    fun esPalabraReservadafor():Boolean{
+        if(caracterActual== 'f') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+             lexema+=caracterActual
             almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
             return true;
         }
