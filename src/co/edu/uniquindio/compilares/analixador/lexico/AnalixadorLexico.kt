@@ -42,6 +42,8 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esEntero()) continue
             if(esdecimal()) continue
             if (esIndenticador()) continue
+            if(esParenDer())continue
+            if(esParenIzq())continue
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
@@ -161,9 +163,46 @@ class AnalixadorLexico ( var codigoFuente:String){
     }
 
     /*
-     * Permite almacenar tokens
+     * Automa finito determinista para saber si es un Parentesis Izquierdo.
      */
-    fun esParentesis(){
-        obtenerSiguienteCaracter()
+    fun esParenIzq():Boolean{
+
+
+        if(caracterActual== '(') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            while (caracterActual== '('){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            almacenarToken(lexema, Categoria.PARENTESIS_IZQ,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
+        }
+
+    /*
+     * Automa finito determinista para saber si es un Parentesis Derecho.
+     */
+    fun esParenDer():Boolean{
+
+
+        if(caracterActual== ')') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            while (caracterActual== ')'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            almacenarToken(lexema, Categoria.PARENTESIS_DER,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
     }
 }
