@@ -160,4 +160,10 @@ class AnalixadorLexico ( var codigoFuente:String){
         return false
     }
 
+    /*
+     * Permite almacenar tokens
+     */
+    fun esParentesis(){
+        obtenerSiguienteCaracter()
+    }
 }
