@@ -229,6 +229,7 @@ class AnalixadorLexico ( var codigoFuente:String){
         if(caracterActual=='=' || caracterActual=='<' || caracterActual=='>' || caracterActual=='!'){
             var aux=caracterActual
             var lexema = ""
+            var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
             lexema+=caracterActual
@@ -240,6 +241,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             }
             else{
                 if (aux=='='){
+                    hacerBT( posicionInicial,filaInicial,columnaIncial)
                     return false
                 }
                 else {
