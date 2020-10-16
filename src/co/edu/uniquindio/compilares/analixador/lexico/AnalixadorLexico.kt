@@ -47,6 +47,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esPalabraReservada())continue
             if(esOperadorArirtmetico())continue
             if(esOperadorLogico()) continue
+            if(esPalabraReservadafor()) continue
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
@@ -271,8 +272,17 @@ class AnalixadorLexico ( var codigoFuente:String){
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
              lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== 'o'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                if(caracterActual== 'r'){
+                    lexema+=caracterActual
+                    obtenerSiguienteCaracter()
             almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
             return true;
+            }
+            }
         }
         return  false;
     }
