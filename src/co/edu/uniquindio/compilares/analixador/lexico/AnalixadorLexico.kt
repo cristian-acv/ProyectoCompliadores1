@@ -571,4 +571,26 @@ class AnalixadorLexico ( var codigoFuente:String){
 
         return  false
     }
-}
+
+    /*
+    * Automa finito determinista para saber si es un punto
+    */
+    fun esPunto():Boolean{
+        if(caracterActual =='.'){
+
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+
+               almacenarToken(lexema, Categoria.PUNTO,filaInicial, columnaIncial)
+            return  true
+
+            }
+        return  false
+        }
+    }
+
+
