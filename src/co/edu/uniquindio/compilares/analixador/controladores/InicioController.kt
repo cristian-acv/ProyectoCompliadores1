@@ -1,6 +1,7 @@
 package co.edu.uniquindio.compilares.analixador.controladores
 
 import co.edu.uniquindio.compilares.analixador.lexico.AnalixadorLexico
+import co.edu.uniquindio.compilares.analixador.lexico.Categoria
 import javafx.concurrent.Task
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
@@ -40,7 +41,7 @@ class InicioController {
 
         val task = object : Task<List<Token>>() {
             override fun call(): List<Token> {
-                return fetchData()
+                return datosLista()
             }
 
             override fun succeeded() {
@@ -62,23 +63,25 @@ class InicioController {
     }
 
 
-    var counter = 1
-
-    fun fetchData() : List<Token> {
+    fun datosLista() : List<Token> {
         val lexico = AnalixadorLexico(codigoFuente.text)
         lexico.analizar()
 
+        val i=0
 
 
-        val participants = listOf(
+            val participants = listOf( Token(lexico.listaToken[i].lexema,lexico.listaToken[i].categoria,
+            lexico.listaToken[i].fila,lexico.listaToken[i].columna))
 
-                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++)
-        )
-        return participants
+
+
+
+         return participants
 
 
     }
 
-    data class Token(val Lexema: String, val Categoria: String, val Fila: String, val Columna:String)
+    data class Token(val Lexema: String, val Categoria: Categoria, val Fila: Int, val Columna:Int)
+
 
 }
