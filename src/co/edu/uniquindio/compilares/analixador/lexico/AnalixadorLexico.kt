@@ -50,6 +50,8 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esPalabraReservadafor()) continue
             if(esCadenaCarateres())continue
 
+            if(esPalabraReservadaif())continue
+
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -281,6 +283,27 @@ class AnalixadorLexico ( var codigoFuente:String){
         }
         return false
     }
+    fun esPalabraReservadaif():Boolean{
+        if(caracterActual== 'i') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            var posicionInicial = posicionActual
+             lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== 'f'){
+
+                    lexema+=caracterActual
+                    obtenerSiguienteCaracter()
+            almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+            return true;
+
+            }
+            hacerBT(posicionInicial,filaInicial,columnaIncial)
+        }
+
+        return  false;
+    }
     fun esPalabraReservadafor():Boolean{
         if(caracterActual== 'f') {
 
@@ -288,7 +311,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
-             lexema+=caracterActual
+            lexema+=caracterActual
             obtenerSiguienteCaracter()
             if(caracterActual== 'o'){
                 lexema+=caracterActual
@@ -296,9 +319,9 @@ class AnalixadorLexico ( var codigoFuente:String){
                 if(caracterActual== 'r'){
                     lexema+=caracterActual
                     obtenerSiguienteCaracter()
-            almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
-            return true;
-            }
+                    almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                    return true;
+                }
             }
             hacerBT( posicionInicial,filaInicial,columnaIncial)
         }
