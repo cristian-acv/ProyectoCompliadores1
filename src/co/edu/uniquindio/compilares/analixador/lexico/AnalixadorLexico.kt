@@ -279,11 +279,22 @@ class AnalixadorLexico ( var codigoFuente:String){
     fun esPalabraReservada():Boolean{
         if(caracterActual== '?') {
             var lexema = ""
+            var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
-            almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
-            return true;
+            while (caracterActual!= '?'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+            if(caracterActual=='?'){
+                almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                return true;
+            }else{
+                hacerBT(posicionInicial,filaInicial,columnaIncial)
+                return  false
+            }
+
         }
         return  false;
     }
