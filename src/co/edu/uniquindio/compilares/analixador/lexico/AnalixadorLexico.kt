@@ -45,11 +45,13 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esParenDer())continue
             if(esParenIzq())continue
             if(esPalabraReservada())continue
+            if(opeadorDeIncremento())continue
+            if(opeadorDecremento())continue
             if(esOperadorArirtmetico())continue
             if(esOperadorLogico()) continue
             if(esPalabraReservadafor()) continue
             if(esCadenaCarateres())continue
-
+            if(esPalabraReservadawhl())continue
             if(esPalabraReservadaif())continue
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
@@ -345,6 +347,50 @@ class AnalixadorLexico ( var codigoFuente:String){
                     almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
                     return true;
                 }
+            }
+            hacerBT( posicionInicial,filaInicial,columnaIncial)
+        }
+
+        return  false;
+    }
+    fun opeadorDeIncremento():Boolean{
+        if(caracterActual== '+') {
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== '+'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+
+                    almacenarToken(lexema, Categoria.OPERADOR_INCREMENTO,filaInicial,columnaIncial)
+                    return true;
+
+            }
+            hacerBT( posicionInicial,filaInicial,columnaIncial)
+        }
+
+        return  false;
+    }
+    fun opeadorDecremento():Boolean{
+        if(caracterActual== '-') {
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== '-'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+
+                almacenarToken(lexema, Categoria.OPERADOR_INCREMENTO,filaInicial,columnaIncial)
+                return true;
+
             }
             hacerBT( posicionInicial,filaInicial,columnaIncial)
         }
