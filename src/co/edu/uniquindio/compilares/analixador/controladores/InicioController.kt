@@ -19,7 +19,6 @@ class InicioController {
     @FXML var colFila = TableColumn<Token, String>()
     @FXML var colColumna = TableColumn<Token, String>()
 
-    val lexico = AnalixadorLexico(codigoFuente.text)
 
     /*
      * fun analizarCodigo(e: ActionEvent){
@@ -36,7 +35,9 @@ class InicioController {
 
 
     fun analizarCodigo() {
-       lexico.analizar()
+
+
+
         val task = object : Task<List<Token>>() {
             override fun call(): List<Token> {
                 return fetchData()
@@ -64,10 +65,13 @@ class InicioController {
     var counter = 1
 
     fun fetchData() : List<Token> {
+        val lexico = AnalixadorLexico(codigoFuente.text)
+        lexico.analizar()
+
+
 
         val participants = listOf(
-                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++),
-                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++),
+
                 Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++)
         )
         return participants
