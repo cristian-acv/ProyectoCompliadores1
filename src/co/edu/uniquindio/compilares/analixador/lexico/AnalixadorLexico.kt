@@ -55,6 +55,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esPalabraReservadaif())continue
             if(esComentarioBloque())continue
             if (esComentarioLinea())continue
+            if(esPunto())continue
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -573,18 +574,16 @@ class AnalixadorLexico ( var codigoFuente:String){
     }
 
     /*
-    * Automa finito determinista para saber si es un punto
+    * Automa finito determinista para saber si es un _
     */
     fun esPunto():Boolean{
-        if(caracterActual =='.'){
+        if(caracterActual =='_'){
 
             var lexema = ""
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
-
             lexema+=caracterActual
             obtenerSiguienteCaracter()
-
                almacenarToken(lexema, Categoria.PUNTO,filaInicial, columnaIncial)
             return  true
 
