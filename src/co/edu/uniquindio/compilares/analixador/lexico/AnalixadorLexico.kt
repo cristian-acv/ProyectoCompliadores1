@@ -56,6 +56,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esComentarioBloque())continue
             if (esComentarioLinea())continue
             if(esPunto())continue
+            if(esOperadorAignacion())continue
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -316,6 +317,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(caracterActual=='=' ){
                 lexema+=caracterActual
                 almacenarToken(lexema, Categoria.OPERADOR_LOGICO,filaInicial,columnaIncial)
+                obtenerSiguienteCaracter()
                 return true
             }
             else{
