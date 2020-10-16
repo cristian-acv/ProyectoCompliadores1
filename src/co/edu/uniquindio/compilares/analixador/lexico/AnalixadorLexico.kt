@@ -48,6 +48,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esOperadorArirtmetico())continue
             if(esOperadorLogico()) continue
             if(esPalabraReservadafor()) continue
+            if(esCadenaCarateres())continue
 
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
@@ -96,21 +97,35 @@ class AnalixadorLexico ( var codigoFuente:String){
     * Automa finito determinista para saber si es un Identificador
     */
     fun esIndenticador():Boolean{
-        if(caracterActual.isLetter() || caracterActual =='$' || caracterActual == '_'){
+        var cont=0
+        if(caracterActual =='$'){
+
             var lexema = ""
+            var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
             lexema+=caracterActual
             obtenerSiguienteCaracter()
 
-            while (caracterActual.isLetter() || caracterActual =='$' || caracterActual == '_' || caracterActual.isDigit()){
+            while ((caracterActual.isLetter()  || caracterActual == '_' || caracterActual.isDigit() )&& cont<10){
+
                 lexema+=caracterActual
                 obtenerSiguienteCaracter()
+
+                cont++
             }
 
-            almacenarToken(lexema, Categoria.IDENTIFICADOR,filaInicial, columnaIncial)
-            return  true
+            if(caracterActual =='$' && cont<10){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                almacenarToken(lexema, Categoria.IDENTIFICADOR,filaInicial, columnaIncial)
+                return  true
+            }else{
+                hacerBT( posicionInicial,filaInicial,columnaIncial)
+                return false
+            }
+
         }
 
         return  false
@@ -268,7 +283,9 @@ class AnalixadorLexico ( var codigoFuente:String){
     }
     fun esPalabraReservadafor():Boolean{
         if(caracterActual== 'f') {
+
             var lexema = ""
+            var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
              lexema+=caracterActual
@@ -283,7 +300,43 @@ class AnalixadorLexico ( var codigoFuente:String){
             return true;
             }
             }
+            hacerBT( posicionInicial,filaInicial,columnaIncial)
         }
+
         return  false;
+    }
+
+    /*
+    * Automa finito determinista para saber si es una cadena de Carateres
+    */
+    fun esCadenaCarateres():Boolean{
+        if(caracterActual =='"'){
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+
+            while (caracterActual !='"' ){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            if(caracterActual =='"' ){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                almacenarToken(lexema, Categoria.STRING,filaInicial, columnaIncial)
+                return  true
+            }else{
+                hacerBT( posicionInicial,filaInicial,columnaIncial)
+                return false
+            }
+
+        }
+
+        return  false
     }
 }
