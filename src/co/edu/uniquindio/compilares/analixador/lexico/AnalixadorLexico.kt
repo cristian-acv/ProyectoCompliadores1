@@ -303,8 +303,7 @@ class AnalixadorLexico ( var codigoFuente:String){
         }
 
         return  false;
-    }
-    fun esPalabraReservadafor():Boolean{
+    }fun esPalabraReservadafor():Boolean{
         if(caracterActual== 'f') {
 
             var lexema = ""
@@ -317,6 +316,30 @@ class AnalixadorLexico ( var codigoFuente:String){
                 lexema+=caracterActual
                 obtenerSiguienteCaracter()
                 if(caracterActual== 'r'){
+                    lexema+=caracterActual
+                    obtenerSiguienteCaracter()
+                    almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                    return true;
+                }
+            }
+            hacerBT( posicionInicial,filaInicial,columnaIncial)
+        }
+
+        return  false;
+    }
+    fun esPalabraReservadawhl():Boolean{
+        if(caracterActual== 'w') {
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== 'h'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                if(caracterActual== 'l'){
                     lexema+=caracterActual
                     obtenerSiguienteCaracter()
                     almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
