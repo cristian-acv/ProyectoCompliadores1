@@ -53,7 +53,8 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esCadenaCarateres())continue
             if(esPalabraReservadawhl())continue
             if(esPalabraReservadaif())continue
-
+            if(esComentarioBloque())continue
+            if (esComentarioLinea())continue
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -228,6 +229,48 @@ class AnalixadorLexico ( var codigoFuente:String){
         }
         return  false;
     }
+    /*
+    * Automa finito determinista para saber si es un corchete Derecho.
+    */
+    fun esCorcheDer():Boolean{
+
+
+        if(caracterActual== ']') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            while (caracterActual== ']'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            almacenarToken(lexema, Categoria.CORCHETE_DER,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
+    }
+    /*
+     * Automa finito determinista para saber si es un corchete Izquierdo.
+     */
+    fun esCorcheIzq():Boolean{
+
+
+        if(caracterActual== '[') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            while (caracterActual== '['){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            almacenarToken(lexema, Categoria.CORCHETE_IZQ,filaInicial,columnaIncial)
+            return true;
+        }
+        return  false;
+    }
 
 
     /*
@@ -388,7 +431,7 @@ class AnalixadorLexico ( var codigoFuente:String){
                 lexema+=caracterActual
                 obtenerSiguienteCaracter()
 
-                almacenarToken(lexema, Categoria.OPERADOR_INCREMENTO,filaInicial,columnaIncial)
+                almacenarToken(lexema, Categoria.OPERADOR_DECREMENTO,filaInicial,columnaIncial)
                 return true;
 
             }
@@ -428,6 +471,64 @@ class AnalixadorLexico ( var codigoFuente:String){
             }
 
         }
+
+        return  false
+    }
+    /*
+    * Automa finito determinista para saber si es una comentario
+    */
+    fun esComentarioBloque():Boolean{
+        if(caracterActual =='┐'){
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+
+            while (caracterActual !='┐' ){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+
+            if(caracterActual =='┐' ){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                almacenarToken(lexema, Categoria.COMENTARIO_BLOQUE,filaInicial, columnaIncial)
+                return  true
+            }else{
+                hacerBT( posicionInicial,filaInicial,columnaIncial)
+                return false
+            }
+
+        }
+
+        return  false
+    }
+    /*
+    * Automa finito determinista para saber si es una comentario de linea
+    */
+    fun esComentarioLinea():Boolean{
+        if(caracterActual =='┘'){
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+
+            while (caracterActual !='\n' ){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+            }
+                almacenarToken(lexema, Categoria.COMENTARIO_LINEA,filaInicial, columnaIncial)
+                return  true
+            }
+
 
         return  false
     }
