@@ -66,14 +66,18 @@ class InicioController {
     fun datosLista() : List<Token> {
         val lexico = AnalixadorLexico(codigoFuente.text)
         lexico.analizar()
+        print(lexico.listaToken)
 
-        val i=0
+          val participants = mutableListOf<Token>()
+        var i=0
 
+      while(lexico.listaToken.size >i){
+          print("ENTROOOO")
 
-            val participants = listOf( Token(lexico.listaToken[i].lexema,lexico.listaToken[i].categoria,
-            lexico.listaToken[i].fila,lexico.listaToken[i].columna))
-
-
+            participants.add(Token(lexico.listaToken[i].lexema,lexico.listaToken[i].categoria,
+                    lexico.listaToken[i].fila,lexico.listaToken[i].columna))
+          i+=1
+        }
 
 
          return participants

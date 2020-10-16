@@ -5,14 +5,14 @@
 
 <AnchorPane prefHeight="577.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.compilares.analixador.controladores.InicioController">
    <children>
-      <Button fx:id="boton" layoutX="27.0" layoutY="14.0" mnemonicParsing="false" onAction="#analizarCodigo" prefHeight="26.0" prefWidth="140.0" text="Analizar Codigo" />
+      <Button fx:id="boton" layoutX="27.0" layoutY="14.0" mnemonicParsing="false" onAction="#analizarCodigo" prefHeight="26.0" prefWidth="140.0" text="Analizar Codigo" textAlignment="CENTER" />
       <TextArea fx:id="codigoFuente" layoutX="27.0" layoutY="54.0" prefHeight="227.0" prefWidth="546.0" />
       <TableView fx:id="tablaTokens" layoutX="27.0" layoutY="311.0" prefHeight="255.0" prefWidth="546.0">
         <columns>
-            <TableColumn fx:id="colLexema" prefWidth="266.0000057220459" text="Lexema" />
-          <TableColumn fx:id="colCategoria" prefWidth="139.4000244140625" text="Categoria" />
-          <TableColumn fx:id="colFila" prefWidth="65.79998779296875" text="Fila" />
-            <TableColumn fx:id="colColumna" prefWidth="78.20004272460938" text="Columna" />
+            <TableColumn fx:id="colLexema" prefWidth="241.39998817443848" text="Lexema" />
+          <TableColumn fx:id="colCategoria" prefWidth="128.5999755859375" text="Categoria" />
+          <TableColumn fx:id="colFila" prefWidth="92.0" text="Fila" />
+            <TableColumn fx:id="colColumna" prefWidth="90.40005493164062" text="Columna" />
         </columns>
       </TableView>
    </children>
