@@ -299,6 +299,10 @@ class AnalixadorLexico ( var codigoFuente:String){
         return  false;
     }
 
+    /*
+   * Automa finito determinista para saber si es operador logico
+   */
+
     fun esOperadorLogico():Boolean{
         if(caracterActual=='=' || caracterActual=='<' || caracterActual=='>' || caracterActual=='!'){
             var aux=caracterActual
@@ -327,6 +331,10 @@ class AnalixadorLexico ( var codigoFuente:String){
         }
         return false
     }
+
+    /*
+   * Automa finito determinista para saber si es operador arimtmetico
+   */
     fun esOperadorArirtmetico():Boolean{
         if(caracterActual=='+' || caracterActual=='-' || caracterActual=='/'|| caracterActual=='*' ){
             var lexema=""
@@ -339,6 +347,10 @@ class AnalixadorLexico ( var codigoFuente:String){
         }
         return false
     }
+
+    /*
+   * Automa finito determinista para saber si es if
+   */
     fun esPalabraReservadaif():Boolean{
         if(caracterActual== 'i') {
             var lexema = ""
@@ -353,13 +365,17 @@ class AnalixadorLexico ( var codigoFuente:String){
                     obtenerSiguienteCaracter()
             almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
             return true;
-
             }
             hacerBT(posicionInicial,filaInicial,columnaIncial)
         }
-
         return  false;
-    }fun esPalabraReservadafor():Boolean{
+    }
+
+
+    /*
+  * Automa finito determinista para saber si es for
+  */
+    fun esPalabraReservadafor():Boolean{
         if(caracterActual== 'f') {
 
             var lexema = ""
@@ -383,6 +399,10 @@ class AnalixadorLexico ( var codigoFuente:String){
 
         return  false;
     }
+
+    /*
+* Automa finito determinista para saber si es while
+*/
     fun esPalabraReservadawhl():Boolean{
         if(caracterActual== 'w') {
 
@@ -407,6 +427,10 @@ class AnalixadorLexico ( var codigoFuente:String){
 
         return  false;
     }
+
+    /*
+* Automa finito determinista para saber si es operador de incremento
+*/
     fun opeadorDeIncremento():Boolean{
         if(caracterActual== '+') {
 
@@ -429,6 +453,10 @@ class AnalixadorLexico ( var codigoFuente:String){
 
         return  false;
     }
+
+    /*
+* Automa finito determinista para saber si es operador de decremento
+*/
     fun opeadorDecremento():Boolean{
         if(caracterActual== '-') {
 
