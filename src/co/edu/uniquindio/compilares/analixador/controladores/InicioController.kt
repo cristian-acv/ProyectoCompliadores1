@@ -1,12 +1,12 @@
 package co.edu.uniquindio.compilares.analixador.controladores
 
 import co.edu.uniquindio.compilares.analixador.lexico.AnalixadorLexico
-import co.edu.uniquindio.compilares.analixador.lexico.Token
-import javafx.event.ActionEvent
+import javafx.concurrent.Task
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
+import javafx.scene.control.cell.PropertyValueFactory
 
 class InicioController {
 
@@ -19,8 +19,10 @@ class InicioController {
     @FXML var colFila = TableColumn<Token, String>()
     @FXML var colColumna = TableColumn<Token, String>()
 
+    val lexico = AnalixadorLexico(codigoFuente.text)
 
-    fun analizarCodigo(e: ActionEvent){
+    /*
+     * fun analizarCodigo(e: ActionEvent){
         if(codigoFuente.text.length >0){
             val lexico = AnalixadorLexico(codigoFuente.text)
             lexico.analizar()
@@ -30,4 +32,49 @@ class InicioController {
         }
 
     }
+     */
+
+
+    fun analizarCodigo() {
+       lexico.analizar()
+        val task = object : Task<List<Token>>() {
+            override fun call(): List<Token> {
+                return fetchData()
+            }
+
+            override fun succeeded() {
+                tablaTokens.items.clear()
+                tablaTokens.items.addAll( value )
+            }
+        }
+
+        Thread(task).start()
+    }
+
+    fun initialize() {
+
+        colLexema.cellValueFactory = PropertyValueFactory<Token, String>("Lexema")
+        colCategoria.cellValueFactory = PropertyValueFactory<Token, String>("Categoria")
+        colFila.cellValueFactory = PropertyValueFactory<Token, String>("Fila")
+        colColumna.cellValueFactory = PropertyValueFactory<Token, String>("Columna")
+
+    }
+
+
+    var counter = 1
+
+    fun fetchData() : List<Token> {
+
+        val participants = listOf(
+                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++),
+                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++),
+                Token("Lexema" + counter++,"Categoria" + counter++,"Fila" + counter++,"Columna" + counter++)
+        )
+        return participants
+
+
+    }
+
+    data class Token(val Lexema: String, val Categoria: String, val Fila: String, val Columna:String)
+
 }
