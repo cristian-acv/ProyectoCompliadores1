@@ -50,6 +50,8 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esPalabraReservadafor()) continue
             if(esCadenaCarateres())continue
 
+            if(esPalabraReservadaif())continue
+
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
