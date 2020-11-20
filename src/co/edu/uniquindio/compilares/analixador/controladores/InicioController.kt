@@ -2,11 +2,13 @@ package co.edu.uniquindio.compilares.analixador.controladores
 
 import co.edu.uniquindio.compilares.analixador.lexico.AnalixadorLexico
 import co.edu.uniquindio.compilares.analixador.lexico.Categoria
+import co.edu.uniquindio.compilares.analixador.sintactico.AnalizadorSintactico
 import javafx.concurrent.Task
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.TextArea
+import javafx.scene.control.TreeView
 import javafx.scene.control.cell.PropertyValueFactory
 
 class InicioController {
@@ -19,6 +21,7 @@ class InicioController {
     @FXML var colCategoria = TableColumn<Token, String>()
     @FXML var colFila = TableColumn<Token, String>()
     @FXML var colColumna = TableColumn<Token, String>()
+    @FXML  var arbolVisual = TreeView<String>()
 
 
     /*
@@ -50,7 +53,19 @@ class InicioController {
             }
         }
 
+
+
         Thread(task).start()
+
+        val lexico2 = AnalixadorLexico(codigoFuente.text)
+        val sintaxis = AnalizadorSintactico(lexico2.listaToken)
+        val uc = sintaxis.esUnidadDeCompilacion()
+        if(uc!=null){
+
+            print("Entro3")
+            arbolVisual.root= uc.getArbolVisual()
+        }
+
     }
 
     fun initialize() {
@@ -72,12 +87,14 @@ class InicioController {
         var i=0
 
       while(lexico.listaToken.size >i){
-          print("ENTROOOO")
 
             participants.add(Token(lexico.listaToken[i].lexema,lexico.listaToken[i].categoria,
                     lexico.listaToken[i].fila,lexico.listaToken[i].columna))
           i+=1
         }
+
+
+
 
 
          return participants

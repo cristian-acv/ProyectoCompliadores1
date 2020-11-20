@@ -1,10 +1,14 @@
 package co.edu.uniquindio.compilares.analixador
 
 import co.edu.uniquindio.compilares.analixador.lexico.AnalixadorLexico
+import co.edu.uniquindio.compilares.analixador.sintactico.AnalizadorSintactico
 
 fun main(){
 
-    val lexico = AnalixadorLexico("a   15.5 8529845641268465+ vbhj 545 yghb")
+    val lexico = AnalixadorLexico("? INT $"+"sumar$(){whl == end {}}")
     lexico.analizar()
-    print(lexico.listaToken)
+    //print(lexico.listaToken)
+    val sintaxis = AnalizadorSintactico(lexico.listaToken)
+    print(sintaxis.esUnidadDeCompilacion())
+    print(sintaxis.listaErrores)
 }

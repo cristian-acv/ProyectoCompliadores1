@@ -54,8 +54,13 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esPalabraReservadawhl())continue
             if(esPalabraReservadaif())continue
             if(esComentarioBloque())continue
+            if(esPalabraReservadaInt())continue
             if (esComentarioLinea())continue
-            if(esPunto())continue
+            if(esLlaveIzq())continue
+            if(esLlaveDer())continue
+            if(esBarraBaja())continue
+            if(esDosPuntos())continue
+            if(espalabraEnd())continue
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -233,20 +238,20 @@ class AnalixadorLexico ( var codigoFuente:String){
     /*
     * Automa finito determinista para saber si es un corchete Derecho.
     */
-    fun esCorcheDer():Boolean{
+    fun esLlaveDer():Boolean{
 
 
-        if(caracterActual== ']') {
+        if(caracterActual== '}') {
             var lexema = ""
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
-            while (caracterActual== ']'){
+            while (caracterActual== '}'){
                 lexema+=caracterActual
                 obtenerSiguienteCaracter()
             }
 
-            almacenarToken(lexema, Categoria.CORCHETE_DER,filaInicial,columnaIncial)
+            almacenarToken(lexema, Categoria.LLAVE_DER,filaInicial,columnaIncial)
             return true;
         }
         return  false;
@@ -254,20 +259,20 @@ class AnalixadorLexico ( var codigoFuente:String){
     /*
      * Automa finito determinista para saber si es un corchete Izquierdo.
      */
-    fun esCorcheIzq():Boolean{
+    fun esLlaveIzq():Boolean{
 
 
-        if(caracterActual== '[') {
+        if(caracterActual== '{') {
             var lexema = ""
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
-            while (caracterActual== '['){
+            while (caracterActual== '{'){
                 lexema+=caracterActual
                 obtenerSiguienteCaracter()
             }
 
-            almacenarToken(lexema, Categoria.CORCHETE_IZQ,filaInicial,columnaIncial)
+            almacenarToken(lexema, Categoria.LLAVE_IZQ,filaInicial,columnaIncial)
             return true;
         }
         return  false;
@@ -280,25 +285,46 @@ class AnalixadorLexico ( var codigoFuente:String){
     fun esPalabraReservada():Boolean{
         if(caracterActual== '?') {
             var lexema = ""
-            var posicionInicial = posicionActual
             var filaInicial = filaActual
             var columnaIncial = columnaACtual
 
-            while (caracterActual!= '?'){
-                lexema+=caracterActual
-                obtenerSiguienteCaracter()
-            }
-            if(caracterActual=='?'){
+            lexema+=caracterActual
+
                 almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
-                return true;
-            }else{
-                hacerBT(posicionInicial,filaInicial,columnaIncial)
-                return  false
+
+                obtenerSiguienteCaracter()
+
+               return true
             }
+        return  false;
+        }
+
+    fun esPalabraReservadaInt():Boolean{
+        if(caracterActual== 'I') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+
+             if(caracterActual=='N'){
+                 lexema+=caracterActual
+                 obtenerSiguienteCaracter()
+                 if (caracterActual=='T'){
+                     lexema+=caracterActual
+                     obtenerSiguienteCaracter()
+
+                     almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                     return true
+                 }
+             }
+
+
 
         }
         return  false;
     }
+
 
     /*
    * Automa finito determinista para saber si es operador logico
@@ -316,6 +342,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(caracterActual=='=' ){
                 lexema+=caracterActual
                 almacenarToken(lexema, Categoria.OPERADOR_LOGICO,filaInicial,columnaIncial)
+                obtenerSiguienteCaracter()
                 return true
             }
             else{
@@ -576,7 +603,7 @@ class AnalixadorLexico ( var codigoFuente:String){
     /*
     * Automa finito determinista para saber si es un _
     */
-    fun esPunto():Boolean{
+    fun esBarraBaja():Boolean{
         if(caracterActual =='_'){
 
             var lexema = ""
@@ -584,12 +611,52 @@ class AnalixadorLexico ( var codigoFuente:String){
             var columnaIncial = columnaACtual
             lexema+=caracterActual
             obtenerSiguienteCaracter()
-               almacenarToken(lexema, Categoria.PUNTO,filaInicial, columnaIncial)
+               almacenarToken(lexema, Categoria.BARRA_BAJA,filaInicial, columnaIncial)
             return  true
 
             }
         return  false
         }
+
+    fun esDosPuntos():Boolean{
+        if(caracterActual ==':'){
+
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            almacenarToken(lexema, Categoria.DOS_PUNTOS,filaInicial, columnaIncial)
+            return  true
+
+        }
+        return  false
+    }
+
+    fun espalabraEnd():Boolean{
+        if(caracterActual== 'e') {
+
+            var lexema = ""
+            var posicionInicial = posicionActual
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== 'n'){
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                if(caracterActual== 'd'){
+                    lexema+=caracterActual
+                    obtenerSiguienteCaracter()
+                    almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                    return true;
+                }
+            }
+            hacerBT( posicionInicial,filaInicial,columnaIncial)
+        }
+
+        return  false;
+    }
     }
 
 
