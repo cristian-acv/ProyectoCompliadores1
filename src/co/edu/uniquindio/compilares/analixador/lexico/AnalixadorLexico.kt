@@ -61,6 +61,7 @@ class AnalixadorLexico ( var codigoFuente:String){
             if(esBarraBaja())continue
             if(esDosPuntos())continue
             if(espalabraEnd())continue
+            if(espalabraVf())continue
             almacenarToken(""+caracterActual, Categoria.DESCONOCIDO, filaActual, columnaACtual)
             obtenerSiguienteCaracter()
         }
@@ -325,6 +326,25 @@ class AnalixadorLexico ( var codigoFuente:String){
         return  false;
     }
 
+    fun espalabraVf():Boolean{
+        if(caracterActual== 'V') {
+            var lexema = ""
+            var filaInicial = filaActual
+            var columnaIncial = columnaACtual
+            var posicionInicial = posicionActual
+            lexema+=caracterActual
+            obtenerSiguienteCaracter()
+            if(caracterActual== 'F'){
+
+                lexema+=caracterActual
+                obtenerSiguienteCaracter()
+                almacenarToken(lexema, Categoria.PALABRA_RESERVADA,filaInicial,columnaIncial)
+                return true;
+            }
+            hacerBT(posicionInicial,filaInicial,columnaIncial)
+        }
+        return  false;
+    }
 
     /*
    * Automa finito determinista para saber si es operador logico

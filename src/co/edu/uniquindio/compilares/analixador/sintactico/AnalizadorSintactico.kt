@@ -354,7 +354,7 @@ class AnalizadorSintactico (var listaTokens:ArrayList<Token>){
     }
 
 
-    fun esValornumerico(){
-
+    fun esValornumerico(): Expresion?{
+          return null
     }
 }

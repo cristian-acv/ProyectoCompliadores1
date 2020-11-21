@@ -6,6 +6,7 @@ import co.edu.uniquindio.compilares.analixador.sintactico.AnalizadorSintactico
 fun main(){
 
     val lexico = AnalixadorLexico("? INT $"+"sumar$(){whl == end {}}")
+
     lexico.analizar()
     //print(lexico.listaToken)
     val sintaxis = AnalizadorSintactico(lexico.listaToken)
